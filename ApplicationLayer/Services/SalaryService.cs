@@ -24,19 +24,30 @@ namespace ApplicationLayer.Services
 
         public float GET_NET_SALARY(float basic)
         {
+            Tax taxMan = new Tax();
+            float net = 0.0f;
+            float gross_salary = GET_GROSS_SALARY(basic);
 
-            return GET_GROSS_SALARY(basic) - GET_INCOME_TAX(basic);
+            float tax_deductible = taxMan.Taxify(gross_salary);
+
+            var tax_deductions = taxMan.Calculate_Tax(tax_deductible);
+
+            foreach(var deduction in tax_deductions)
+            {
+                net -= deduction;
+            }
+            return net;
         }
 
         public float GET_INCOME_TAX(float basic)
         {
 
-            return ((Salary.PensionFund / 100 * basic) + ((Salary.IncomeTax / 100) * basic));
+            throw new NotImplementedException();
         }
 
         public float EMPLOYEE_PENSION_AMOUNT(float basic)
         {
-            return (Salary.PensionFund / 100) * basic;
+            throw new NotImplementedException();
         }
     }
 }

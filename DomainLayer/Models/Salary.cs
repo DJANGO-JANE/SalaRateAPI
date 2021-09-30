@@ -10,14 +10,8 @@ namespace DomainLayer.Models
     {
         private float BasicSalary { get; set; }
         public static float PensionFund = 5;
-        public static float IncomeTax = 5;
         public float GrossSalary { get; set; }
 
-        public static float incomeTax
-        {
-            get { return IncomeTax; }
-            set { IncomeTax = value; }
-        }
 
         public static float pensionFund
         {
