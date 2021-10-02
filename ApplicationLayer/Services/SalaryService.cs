@@ -10,42 +10,59 @@ namespace ApplicationLayer.Services
 {
     public class SalaryService : ISalary
     {
+        private Salary _salary;
+
+
 
         public SalaryService()
         {
 
         }
-        public float GET_GROSS_SALARY(float basic)
+        public async Task<Salary> GET_GROSS_SALARY(float basic)
         {
-            float allowances = 0.0f, gross_salary;
-            gross_salary = basic + allowances;
-            return gross_salary;
+            Salary salary = new Salary();
+            salary.BasicSalary = basic;
+            _salary = salary;
+
+            float gross_salary;
+            gross_salary = _salary.BasicSalary + _salary.ConveyanceAllowance + _salary.HouseRentAllowance;
+            _salary.GrossSalary = gross_salary;
+            return _salary;
         }
 
-        public float GET_NET_SALARY(float basic)
+        public async Task<Salary> GET_NET_SALARY(float basic)
         {
+            Salary salary = new Salary();
+            salary.BasicSalary = basic;
+            _salary = salary;
+
+
             Tax taxMan = new Tax();
-            float net = 0.0f;
-            float gross_salary = GET_GROSS_SALARY(basic);
 
-            float tax_deductible = taxMan.Taxify(gross_salary);
+            _salary.BasicSalary = basic;
+            var temp = await GET_GROSS_SALARY(basic);
+            _salary.GrossSalary = temp.GrossSalary;
 
-            var tax_deductions = taxMan.Calculate_Tax(tax_deductible);
+            _salary.Taxable = taxMan.Taxify(_salary);
+
+            var tax_deductions = taxMan.Calculate_Tax_Deductions(_salary);
 
             foreach(var deduction in tax_deductions)
             {
-                net -= deduction;
+                _salary.Taxable -= deduction;
+                _salary.TaxPaid += deduction;
             }
-            return net;
+            _salary.NetSalary = _salary.Taxable;
+            return _salary;
         }
 
-        public float GET_INCOME_TAX(float basic)
+        public Task<float> GET_INCOME_TAX(float basic)
         {
 
             throw new NotImplementedException();
         }
 
-        public float EMPLOYEE_PENSION_AMOUNT(float basic)
+        public Task<float> EMPLOYEE_PENSION_AMOUNT(float basic)
         {
             throw new NotImplementedException();
         }

@@ -17,32 +17,38 @@ namespace DomainLayer.Models
         /// </summary>
         /// <param name="gross">goss salary</param>
         /// <returns>funds remaining after pension deductions.</returns>
-        public float Taxify(float gross)
+        public float Taxify(Salary salary)
         {
-            return gross - (Salary.PensionFund/100);
+            return salary.GrossSalary - (salary.BasicSalary * (Salary.PensionFund/100));
 
         }
-        public float[] Calculate_Tax(float taxable)
+        /// <summary>
+        /// Calculates the tax for each chargeable income GH Cedi
+        /// </summary>
+        /// <param name="salary"></param>
+        /// <returns></returns>
+        public float[] Calculate_Tax_Deductions(Salary salary)
         {
             float[] taxes = new float[thresholds.Length];
-            float remaining_funds = taxable, dummy = taxable;
+            float remaining_funds = salary.Taxable;
+            float open_wallet;
 
             float minimum = thresholds[1];
 
-            for(int i =0; i < thresholds.Length; i++)
+            for(int i = 0; i < thresholds.Length; i++)
             {
                 float rate = rates[i];
                 float tax = rate / 100;
 
-                dummy = remaining_funds - thresholds[i];
+                open_wallet = remaining_funds - thresholds[i];
                 
-                if(dummy > minimum)
+                if(open_wallet > minimum)
                 {
 
-                    if(thresholds[i] == thresholds[thresholds.Length-1])
+                    if(thresholds[i] == thresholds[^1])
                     {
-                        remaining_funds -= ((rates[rates.Length-1] / 100) * thresholds[i]);
-                        taxes[i] = ((rates[rates.Length - 1] / 100) * thresholds[i]);
+                        remaining_funds -= ((rates[^1] / 100) * thresholds[i]);
+                        taxes[i] = (rates[^1] / 100) * thresholds[i];
 
                     }
                     else
@@ -56,7 +62,6 @@ namespace DomainLayer.Models
 
             }
             return taxes;
-            //return total_taxable;
         }
     }
 }

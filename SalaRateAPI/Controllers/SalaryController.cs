@@ -1,4 +1,6 @@
-﻿using InfrastructureLayer.Interfaces;
+﻿using ApplicationLayer.DTO;
+using AutoMapper;
+using InfrastructureLayer.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,37 +14,39 @@ namespace SalaRateAPI.Controllers
     public class SalaryController : Controller
     {
         public readonly ISalary _service;
+        public readonly IMapper _mapper;
 
-        public SalaryController(ISalary salary)
+        public SalaryController(ISalary salary, IMapper mapper)
         {
             _service = salary;
+            _mapper = mapper;
         }
 
         [HttpGet]
         [Route("Get-Gross")]
-        public string GetGrossSalary([FromQuery(Name = "amount")] float basic)
+        public async Task<ActionResult<SalaryGross>> GetGrossSalary([FromQuery(Name = "amount")] float basic)
         {
-            var temp = _service.GET_GROSS_SALARY(basic);
+            var salary = await _service.GET_GROSS_SALARY(basic);
 
 
-            return "$"+temp;
+            return Ok(_mapper.Map<SalaryGross>(salary));
         }
 
         [HttpGet]
         [Route("Get-Net")]
-        public string GetNetSalary([FromQuery(Name = "amount")] float basic)
+        public async Task<ActionResult<SalaryNet>> GetNetSalary([FromQuery(Name = "amount")] float basic)
         {
-            var temp = _service.GET_NET_SALARY(basic);
+            var salary = await _service.GET_NET_SALARY(basic);
 
 
-            return "$" + temp;
+            return Ok(_mapper.Map<SalaryNet>(salary));
         }
 
         [HttpGet]
         [Route("Get-EPA")]
-        public string GetEmployeePensionAmount([FromQuery(Name = "amount")] float basic)
+        public async Task<string> GetEmployeePensionAmount([FromQuery(Name = "amount")] float basic)
         {
-            var temp = _service.EMPLOYEE_PENSION_AMOUNT(basic);
+            var temp = await _service.EMPLOYEE_PENSION_AMOUNT(basic);
 
 
             return "$" + temp;

@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SalaRateAPI", "SalaRateAPI\SalaRateAPI.csproj", "{3FF75E24-067A-460F-B71F-A857B71600D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SalaRateAPI", "SalaRateAPI\SalaRateAPI.csproj", "{3FF75E24-067A-460F-B71F-A857B71600D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationLayer", "ApplicationLayer\ApplicationLayer.csproj", "{677876FF-4A85-4D6E-98B5-8B698D936B9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicationLayer", "ApplicationLayer\ApplicationLayer.csproj", "{677876FF-4A85-4D6E-98B5-8B698D936B9C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainLayer", "DomainLayer\DomainLayer.csproj", "{7F325CA5-D509-4E98-8023-26DD7972D0D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainLayer", "DomainLayer\DomainLayer.csproj", "{7F325CA5-D509-4E98-8023-26DD7972D0D4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InfrastructureLayer", "InfrastructureLayer\InfrastructureLayer.csproj", "{3F4E3FB0-1E69-4E65-95FD-0A4F48063E00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InfrastructureLayer", "InfrastructureLayer\InfrastructureLayer.csproj", "{3F4E3FB0-1E69-4E65-95FD-0A4F48063E00}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SalaRate.Tests", "SalaRate.Tests\SalaRate.Tests.csproj", "{591802DC-4AE8-451F-BBEA-E44FFDEE3ED8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{3F4E3FB0-1E69-4E65-95FD-0A4F48063E00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F4E3FB0-1E69-4E65-95FD-0A4F48063E00}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F4E3FB0-1E69-4E65-95FD-0A4F48063E00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{591802DC-4AE8-451F-BBEA-E44FFDEE3ED8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{591802DC-4AE8-451F-BBEA-E44FFDEE3ED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{591802DC-4AE8-451F-BBEA-E44FFDEE3ED8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{591802DC-4AE8-451F-BBEA-E44FFDEE3ED8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
