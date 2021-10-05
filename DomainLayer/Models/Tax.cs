@@ -15,12 +15,12 @@ namespace DomainLayer.Models
         /// <summary>
         /// Deduct all pension funds and another funds that need to be deducted before the funds are taxed
         /// </summary>
-        /// <param name="gross">goss salary</param>
-        /// <returns>funds remaining after pension deductions.</returns>
+        /// <param name="salary">The salary to perform calculations on.</param>
+        /// <returns>Funds remaining after pension deductions.</returns>
         public float Taxify(Salary salary)
         {
-            return salary.GrossSalary - (salary.BasicSalary * (Salary.PensionFund/100));
-
+            salary.PensionAmount = (salary.BasicSalary * (salary.Pension/100));
+            return salary.GrossSalary - salary.PensionAmount;
         }
         /// <summary>
         /// Calculates the tax for each chargeable income GH Cedi
@@ -31,37 +31,36 @@ namespace DomainLayer.Models
         {
             float[] taxes = new float[thresholds.Length];
             float remaining_funds = salary.Taxable;
-            float open_wallet;
+            float open_wallet = 0.0f ;
 
             float minimum = thresholds[1];
 
             for(int i = 0; i < thresholds.Length; i++)
             {
-                float rate = rates[i];
-                float tax = rate / 100;
+                float rate = rates[i], tax = rate / 100;
 
                 open_wallet = remaining_funds - thresholds[i];
-                
-                if(open_wallet > minimum)
-                {
 
-                    if(thresholds[i] == thresholds[^1])
+                if (open_wallet > minimum)
+                {
+                    if (thresholds[i] >= thresholds[^1])
                     {
-                        remaining_funds -= ((rates[^1] / 100) * thresholds[i]);
-                        taxes[i] = (rates[^1] / 100) * thresholds[i];
+                        tax = rates[^1] / 100;
+
+                        //remaining_funds -= (tax * (remaining_funds - thresholds[i]));
+                        taxes[i] = tax * (remaining_funds);
 
                     }
                     else
                     {
                         remaining_funds -= (tax * thresholds[i]);
                         taxes[i] = tax * thresholds[i];
-
                     }
-                    continue;
                 }
-
             }
             return taxes;
         }
+
+    
     }
 }

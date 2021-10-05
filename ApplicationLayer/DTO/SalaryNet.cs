@@ -9,9 +9,12 @@ namespace ApplicationLayer.DTO
     public class SalaryNet
     {
         public float BasicSalary { get; set; }
-        public float PensionFund { get; set; }
+        public float Pension { get; set; }
+        public float PensionAmount { get; set; }
         public float Taxable { get; set; }
         public float NetSalary { get; set; }
-        public float TaxPaid { get; set; }
+        public float PayE { get; set; }
+        public Dictionary<int, float> EPCA { get; set; }
+
     }
 }

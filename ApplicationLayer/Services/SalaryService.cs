@@ -18,15 +18,17 @@ namespace ApplicationLayer.Services
         {
 
         }
-        public async Task<Salary> GET_GROSS_SALARY(float basic)
+        public async Task<Salary> GET_GROSS_SALARY(float basic, float? allowances)
         {
             Salary salary = new Salary();
             salary.BasicSalary = basic;
             _salary = salary;
 
-            float gross_salary;
-            gross_salary = _salary.BasicSalary + _salary.ConveyanceAllowance + _salary.HouseRentAllowance;
-            _salary.GrossSalary = gross_salary;
+            _salary.GrossSalary = _salary.BasicSalary + _salary.Allowances;
+
+            Tax taxMan = new Tax();
+
+            _salary.Taxable = taxMan.Taxify(_salary);
             return _salary;
         }
 
@@ -36,35 +38,30 @@ namespace ApplicationLayer.Services
             salary.BasicSalary = basic;
             _salary = salary;
 
-
             Tax taxMan = new Tax();
+            Pension pension = new();
 
             _salary.BasicSalary = basic;
-            var temp = await GET_GROSS_SALARY(basic);
+
+            var temp = await GET_GROSS_SALARY(basic, null);
             _salary.GrossSalary = temp.GrossSalary;
 
             _salary.Taxable = taxMan.Taxify(_salary);
+            _salary.NetSalary = _salary.Taxable;
 
+            foreach (var tier in pension.EmployeeRate)
+            {
+                salary.Pension = tier.Value;
+            }
             var tax_deductions = taxMan.Calculate_Tax_Deductions(_salary);
 
             foreach(var deduction in tax_deductions)
             {
-                _salary.Taxable -= deduction;
-                _salary.TaxPaid += deduction;
+                _salary.NetSalary -= deduction;
+                _salary.PayE += deduction;
             }
-            _salary.NetSalary = _salary.Taxable;
             return _salary;
         }
 
-        public Task<float> GET_INCOME_TAX(float basic)
-        {
-
-            throw new NotImplementedException();
-        }
-
-        public Task<float> EMPLOYEE_PENSION_AMOUNT(float basic)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

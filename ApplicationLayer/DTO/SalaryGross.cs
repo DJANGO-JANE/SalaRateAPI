@@ -10,8 +10,6 @@ namespace ApplicationLayer.DTO
     {
         public float BasicSalary { get; set; }
         public float Taxable { get; set; }
-        public float ConveyanceAllowance { get; set; }
-        public float HouseRentAllowance { get; set; }
-        public float TaxPaid { get; set; }
+        public float? Allowances { get; set; }
     }
 }

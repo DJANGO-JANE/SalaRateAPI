@@ -9,8 +9,8 @@ namespace InfrastructureLayer.Interfaces
 {
     public interface ISalary
     {
-        public Task<Salary> GET_GROSS_SALARY(float basic);
+        public Task<Salary> GET_GROSS_SALARY(float basic, float? allowances);
         public Task<Salary> GET_NET_SALARY(float basic);
-        public Task<float> EMPLOYEE_PENSION_AMOUNT(float basic);
+        //public Task<Salary> DetailsFromNetSalary(float net,float allowances);
     }
 }
